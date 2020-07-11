@@ -4,25 +4,28 @@ namespace GoodFoodCore.Models
 {
     public class RecipeIngredient : ValueObject<RecipeIngredient>
     {
-        public Ingredient Ingredient { get; }
-        public string Amount { get; }
+        public int ID { get; set; }
+        public string RecipeSlug { get; set; }
+        public string IngredientSlug { get; set; }
+        public string Amount { get; set; }
 
-        public RecipeIngredient(Ingredient ingredient, string amount)
-        {
-            Ingredient = ingredient;
-            Amount = amount;
-        }
+
+        public Recipe Recipe { get; set; }
+        public Ingredient Ingredient { get; set; }
 
         protected override bool EqualsCore(RecipeIngredient other)
         {
-            return Ingredient.Slug == other.Ingredient.Slug && Amount.Equals(other.Amount);
+            return RecipeSlug == other.RecipeSlug
+                && IngredientSlug == other.IngredientSlug
+                && Amount.Equals(other.Amount);
         }
 
         protected override int GetHashCodeCore()
         {
             unchecked
             {
-                var hashcode = 397 * Ingredient.Slug.GetHashCode();
+                var hashcode = 397 * IngredientSlug.GetHashCode();
+                hashcode = (hashcode * 397) ^ RecipeSlug.GetHashCode();
                 return (hashcode * 397) ^ Amount.GetHashCode();
             }
         }

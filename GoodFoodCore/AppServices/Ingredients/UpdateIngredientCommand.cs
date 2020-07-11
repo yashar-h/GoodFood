@@ -1,9 +1,12 @@
 ﻿using GoodFoodCore.Common;
-using GoodFoodCore.Repository;
+using GoodFoodCore.Data.Repository;
+using GoodFoodCore.Models;
 using JetBrains.Annotations;
 using System;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
-namespace GoodFoodCore.AppServices
+namespace GoodFoodCore.AppServices.Ingredients
 {
     public sealed class UpdateIngredientCommand : ICommand
     {
@@ -32,15 +35,31 @@ namespace GoodFoodCore.AppServices
         {
             private readonly IIngredientsRepository _ingredientsRepository;
 
-            public UpdateIngredientCommandHandler(IIngredientsRepository ingredientsRepository)
+            public UpdateIngredientCommandHandler([NotNull] IIngredientsRepository ingredientsRepository)
             {
-                _ingredientsRepository = ingredientsRepository;
+                _ingredientsRepository = ingredientsRepository ??
+                                         throw new ArgumentNullException(nameof(ingredientsRepository));
             }
 
-            public Result Handle(UpdateIngredientCommand command)
+            public async Task<Result> Handle(UpdateIngredientCommand command)
             {
                 var ingredient = new Ingredient(command.Title, command.Description, command.Slug);
-                _ingredientsRepository.Update(ingredient);
+
+                try
+                {
+                    await _ingredientsRepository.Update(ingredient);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_ingredientsRepository.Exists(ingredient.Slug))
+                    {
+                        return Result.Fail("Recipe not found.");
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
 
                 return Result.Ok();
             }

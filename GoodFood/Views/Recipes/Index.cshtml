@@ -1,10 +1,10 @@
-﻿@model IEnumerable<GoodFoodWeb.Models.IngredientViewModel>
+﻿@model IEnumerable<GoodFoodWeb.Models.RecipeViewModel>
 
 @{
-    ViewData["Title"] = "Ingredients";
+    ViewData["Title"] = "Recipes";
 }
 
-<h1>Ingredients</h1>
+<h1>Recipes</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -18,6 +18,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -29,6 +32,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Slug">Edit</a> |

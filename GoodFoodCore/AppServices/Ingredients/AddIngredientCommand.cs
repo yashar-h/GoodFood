@@ -1,9 +1,12 @@
 ﻿using GoodFoodCore.Common;
-using GoodFoodCore.Repository;
+using GoodFoodCore.Data.Repository;
+using GoodFoodCore.Models;
 using JetBrains.Annotations;
 using System;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
-namespace GoodFoodCore.AppServices
+namespace GoodFoodCore.AppServices.Ingredients
 {
     public sealed class AddIngredientCommand : ICommand
     {
@@ -32,15 +35,26 @@ namespace GoodFoodCore.AppServices
         {
             private readonly IIngredientsRepository _ingredientsRepository;
 
-            public AddIngredientCommandHandler(IIngredientsRepository ingredientsRepository)
+            public AddIngredientCommandHandler([NotNull] IIngredientsRepository ingredientsRepository)
             {
-                _ingredientsRepository = ingredientsRepository;
+                _ingredientsRepository = ingredientsRepository ?? throw new ArgumentNullException(nameof(ingredientsRepository));
             }
 
-            public Result Handle(AddIngredientCommand command)
+            public async Task<Result> Handle(AddIngredientCommand command)
             {
                 var ingredient = new Ingredient(command.Title, command.Description, command.Slug);
-                _ingredientsRepository.Add(ingredient);
+
+                try
+                {
+                    await _ingredientsRepository.Add(ingredient);
+                }
+                catch (DbUpdateException /* ex */)
+                {
+                    //Log the error (uncomment ex variable name and write a log.
+                    return Result.Fail("Unable to save changes. " +
+                                       "Try again, and if the problem persists " +
+                                       "see your system administrator.");
+                }
 
                 return Result.Ok();
             }

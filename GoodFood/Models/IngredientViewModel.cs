@@ -1,4 +1,4 @@
-﻿using GoodFoodCore;
+﻿using GoodFoodCore.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace GoodFoodWeb.Models
@@ -24,6 +24,11 @@ namespace GoodFoodWeb.Models
             Title = ingredient.Title;
             Description = ingredient.Description;
             Slug = ingredient.Slug;
+        }
+
+        public Ingredient ToDomainModel()
+        {
+            return new Ingredient(Title, Description, Slug);
         }
     }
 }

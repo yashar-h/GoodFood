@@ -1,90 +1,95 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using GoodFoodCore.AppServices.Ingredients;
+using GoodFoodCore.AppServices.Recipes;
 using GoodFoodCore.Utils;
 using GoodFoodWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GoodFoodWeb.Controllers
 {
-    public class IngredientsController : Controller
+    public class RecipesController : Controller
     {
         private readonly Dispatcher _dispatcher;
 
-        public IngredientsController(Dispatcher dispatcher)
+        public RecipesController(Dispatcher dispatcher)
         {
             _dispatcher = dispatcher;
         }
 
+        // GET: Recipes
         public async Task<IActionResult> Index()
         {
-            var ingredients = await _dispatcher.Dispatch(new GetIngredientsQuery());
+            var recipes = await _dispatcher.Dispatch(new GetRecipesQuery());
 
-            var ingredientViewModels = ingredients.Select(i => new IngredientViewModel(i));
+            var recipeViewModels = recipes.Select(recipe => new RecipeViewModel(recipe));
 
-            return View(ingredientViewModels);
+            return View(recipeViewModels);
         }
 
-        public async Task<ActionResult> Details(string slug)
+        // GET: Recipes/Details/{slug}
+        public async Task<IActionResult> Details(string slug)
         {
             if (string.IsNullOrWhiteSpace(slug))
             {
                 return NotFound();
             }
 
-            var ingredient = await _dispatcher.Dispatch(new GetIngredientQuery(slug));
+            var recipe = await _dispatcher.Dispatch(new GetRecipeQuery(slug));
 
-            if (ingredient == null)
+            if (recipe == null)
             {
                 return NotFound();
             }
 
-            return View(new IngredientViewModel(ingredient));
+            return View(new RecipeViewModel(recipe));
         }
 
-        public ActionResult Create()
+        // GET: Recipes/Create
+        public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Ingredients/Create
+        // POST: Recipes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Slug,Title,Description")] IngredientViewModel ingredient)
+        public async Task<IActionResult> Create([Bind("Slug,Title,Description,Category")] RecipeViewModel recipe)
         {
             if (ModelState.IsValid)
             {
-                var result = await _dispatcher.Dispatch(new AddIngredientCommand
-                    (ingredient.Title, ingredient.Description, ingredient.Slug));
+                var result = await _dispatcher.Dispatch(new AddRecipeCommand(recipe.Title, recipe.Description, recipe.Slug,
+                    recipe.Category));
 
                 if (result.IsFailure)
                 {
                     ModelState.AddModelError("", result.Error);
-                    return View(ingredient);
+                    return View(recipe);
                 }
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(ingredient);
+            return View(recipe);
         }
 
-        public async Task<ActionResult> Edit(string slug)
+        // GET: Recipes/Edit/{slug}
+        public async Task<IActionResult> Edit(string slug)
         {
             if (slug == null)
             {
                 return NotFound();
             }
 
-            var ingredient = await _dispatcher.Dispatch(new GetIngredientQuery(slug));
-            if (ingredient == null)
+            var recipe = await _dispatcher.Dispatch(new GetRecipeQuery(slug));
+            if (recipe == null)
             {
                 return NotFound();
             }
 
-            return View(new IngredientViewModel(ingredient));
+            return View(new RecipeViewModel(recipe));
         }
 
         // POST: Recipes/Edit/{slug}
@@ -92,30 +97,30 @@ namespace GoodFoodWeb.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string slug, [Bind("Slug,Title,Description")] IngredientViewModel ingredient)
+        public async Task<IActionResult> Edit(string slug, [Bind("Slug,Title,Description,Category")] RecipeViewModel recipe)
         {
-            if (slug != ingredient.Slug)
+            if (slug != recipe.Slug)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                var result = await _dispatcher.Dispatch(new UpdateIngredientCommand
-                    (ingredient.Title, ingredient.Description, ingredient.Slug));
+                var result = await _dispatcher.Dispatch(new UpdateRecipeCommand(recipe.ToDomainModel()));
 
                 if (result.IsFailure)
                 {
                     ModelState.AddModelError("", result.Error);
-                    return View(ingredient);
+                    return View(recipe);
                 }
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(ingredient);
+            return View(recipe);
         }
 
+        // GET: Recipes/Delete/{slug}
         public async Task<IActionResult> Delete(string slug, bool? saveChangesError = false)
         {
             if (string.IsNullOrWhiteSpace(slug))
@@ -123,8 +128,8 @@ namespace GoodFoodWeb.Controllers
                 return NotFound();
             }
 
-            var ingredient = await _dispatcher.Dispatch(new GetIngredientQuery(slug));
-            if (ingredient == null)
+            var recipe = await _dispatcher.Dispatch(new GetRecipeQuery(slug));
+            if (recipe == null)
             {
                 return NotFound();
             }
@@ -136,20 +141,21 @@ namespace GoodFoodWeb.Controllers
                     "see your system administrator.";
             }
 
-            return View(new IngredientViewModel(ingredient));
+            return View(new RecipeViewModel(recipe));
         }
 
+        // POST: Recipes/Delete/{slug}
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string slug)
         {
-            var ingredient = await _dispatcher.Dispatch(new GetIngredientQuery(slug));
-            if (ingredient == null)
+            var recipe = await _dispatcher.Dispatch(new GetRecipeQuery(slug));
+            if (recipe == null)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            var result = await _dispatcher.Dispatch(new DeleteIngredientCommand(slug));
+            var result = await _dispatcher.Dispatch(new DeleteRecipeCommand(slug));
 
             if (result.IsFailure)
             {

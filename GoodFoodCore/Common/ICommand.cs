@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading.Tasks;
 
 namespace GoodFoodCore.Common
 {
@@ -11,6 +9,6 @@ namespace GoodFoodCore.Common
     public interface ICommandHandler<TCommand>
         where TCommand : ICommand
     {
-        Result Handle(TCommand command);
+        Task<Result> Handle(TCommand command);
     }
 }

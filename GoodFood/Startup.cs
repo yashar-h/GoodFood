@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using GoodFoodCore.Common;
-using GoodFoodCore.Repository;
+using GoodFoodCore.Data;
+using GoodFoodCore.Data.Repository;
 using GoodFoodCore.Utils;
 using GoodFoodWeb.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,10 +24,14 @@ namespace GoodFood
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<RecipeContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddControllersWithViews();
 
-            services.AddSingleton<Dispatcher>();
-            services.AddSingleton<IIngredientsRepository, InMemoryIngredientsRepository>();
+            services.AddScoped<Dispatcher>();
+            services.AddScoped<IIngredientsRepository, SqlServerIngredientsRepository>();
+            services.AddScoped<IRecipesRepository, SqlServerRecipesRepository>();
 
             services.AddHandlers(typeof(ICommandHandler<>));
             services.AddHandlers(typeof(IQueryHandler<,>));
