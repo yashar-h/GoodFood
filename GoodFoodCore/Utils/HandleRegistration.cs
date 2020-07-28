@@ -1,11 +1,11 @@
-﻿using GoodFoodCore.Common;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GoodFoodCore.Common;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace GoodFoodWeb.Utils
+namespace GoodFoodCore.Utils
 {
     /// <summary>
     /// Registers Handlers for Command, Queries and Domain Events

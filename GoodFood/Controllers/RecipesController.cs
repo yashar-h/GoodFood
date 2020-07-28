@@ -4,7 +4,6 @@ using GoodFoodCore.AppServices.Recipes;
 using GoodFoodCore.Utils;
 using GoodFoodWeb.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace GoodFoodWeb.Controllers
 {

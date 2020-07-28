@@ -2,7 +2,6 @@ using GoodFoodCore.Common;
 using GoodFoodCore.Data;
 using GoodFoodCore.Data.Repository;
 using GoodFoodCore.Utils;
-using GoodFoodWeb.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace GoodFood
+namespace GoodFoodWeb
 {
     public class Startup
     {
