@@ -15,9 +15,9 @@ namespace GoodFoodCore.Data.Repository
             _context = context;
         }
 
-        public async Task<List<Recipe>> GetAll()
+        public async Task<IEnumerable<Recipe>> GetAll()
         {
-            return await _context.Recipes.ToListAsync();
+            return _context.Recipes.AsNoTracking();
         }
 
         public async Task<Recipe> Get(string slug)

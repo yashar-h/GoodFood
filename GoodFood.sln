@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodFoodWeb", "GoodFood\GoodFoodWeb.csproj", "{02C8815F-9686-44CF-91D9-06D5ED4EF57B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodFoodWeb", "GoodFood\GoodFoodWeb.csproj", "{02C8815F-9686-44CF-91D9-06D5ED4EF57B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodFoodCore", "GoodFoodCore\GoodFoodCore.csproj", "{6A40CECF-D501-4937-976D-0D26E844212A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodFoodCore", "GoodFoodCore\GoodFoodCore.csproj", "{6A40CECF-D501-4937-976D-0D26E844212A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodFoodGrpcServer", "GoodFoodGrpcServer\GoodFoodGrpcServer.csproj", "{3E842255-095A-4474-82CB-43B265143C7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodFoodGrpcShared", "GoodFoodGrpcShared\GoodFoodGrpcShared.csproj", "{4278A95E-E984-4E37-BBE6-2AAF5D3FBCDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodFoodGrpcClient", "GoodFoodGrpcClient\GoodFoodGrpcClient.csproj", "{E9D2018A-B7EE-47D8-AE0C-4173A104E550}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{6A40CECF-D501-4937-976D-0D26E844212A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A40CECF-D501-4937-976D-0D26E844212A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A40CECF-D501-4937-976D-0D26E844212A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E842255-095A-4474-82CB-43B265143C7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E842255-095A-4474-82CB-43B265143C7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E842255-095A-4474-82CB-43B265143C7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E842255-095A-4474-82CB-43B265143C7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4278A95E-E984-4E37-BBE6-2AAF5D3FBCDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4278A95E-E984-4E37-BBE6-2AAF5D3FBCDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4278A95E-E984-4E37-BBE6-2AAF5D3FBCDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4278A95E-E984-4E37-BBE6-2AAF5D3FBCDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9D2018A-B7EE-47D8-AE0C-4173A104E550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9D2018A-B7EE-47D8-AE0C-4173A104E550}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9D2018A-B7EE-47D8-AE0C-4173A104E550}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9D2018A-B7EE-47D8-AE0C-4173A104E550}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

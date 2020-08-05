@@ -8,13 +8,13 @@ using JetBrains.Annotations;
 
 namespace GoodFoodCore.AppServices.Recipes
 {
-    public sealed class GetRecipesQuery : IQuery<List<Recipe>>
+    public sealed class GetRecipesQuery : IQuery<IEnumerable<Recipe>>
     {
         public GetRecipesQuery()
         {
         }
 
-        internal sealed class GetRecipesQueryHandler : IQueryHandler<GetRecipesQuery, List<Recipe>>
+        internal sealed class GetRecipesQueryHandler : IQueryHandler<GetRecipesQuery, IEnumerable<Recipe>>
         {
             private readonly IRecipesRepository _recipesRepository;
 
@@ -23,7 +23,7 @@ namespace GoodFoodCore.AppServices.Recipes
                 _recipesRepository = recipesRepository ?? throw new ArgumentNullException(nameof(recipesRepository));
             }
 
-            public async Task<List<Recipe>> Handle(GetRecipesQuery query)
+            public async Task<IEnumerable<Recipe>> Handle(GetRecipesQuery query)
             {
                 return await _recipesRepository.GetAll();
             }

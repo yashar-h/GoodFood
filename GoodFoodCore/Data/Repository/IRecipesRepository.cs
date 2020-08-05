@@ -6,7 +6,7 @@ namespace GoodFoodCore.Data.Repository
 {
     public interface IRecipesRepository
     {
-        Task<List<Recipe>> GetAll();
+        Task<IEnumerable<Recipe>> GetAll();
         Task<Recipe> Get(string slug);
         Task Add(Recipe recipe);
         Task Update(Recipe recipe);

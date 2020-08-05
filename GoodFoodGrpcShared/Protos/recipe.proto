@@ -1,0 +1,50 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "GoodFood";
+
+package recipe;
+
+service RecipeService {
+	// Sends a stream of all recipes to client
+	rpc RequestAllRecipes (google.protobuf.Empty) returns (stream Recipe);
+
+	rpc RequestRecipe (RecipeRequest) returns (Recipe);
+}
+
+message RecipeRequest {
+	string slug = 1;
+}
+
+message RecipeList {
+	repeated Recipe recipe = 1;
+}
+
+message Recipe {
+	string slug = 1;
+	string title = 2;
+	string description = 3;
+
+	enum Category {
+		// Default value mapped to main course so if not defined, interpreted as main course
+		MainCourse = 0;
+		Starters = 1;
+		Dessert = 2;
+	}
+
+	Category category = 4;
+	repeated RecipeIngredient recipeIngredient = 5;
+}
+
+message RecipeIngredient {
+	int32 id = 1;
+	string amount = 2;
+	Ingredient ingredient = 3;
+}
+
+message Ingredient {
+	string slug = 1;
+	string title = 2;
+	string description = 3;
+}
